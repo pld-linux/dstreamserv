@@ -1,4 +1,5 @@
 Summary:	Darwin Streaming Server
+Summary(pl):	Serwer strumieni z Darwina
 Name:		dstreamsrv
 Version:	4.0
 Release:	1
@@ -11,6 +12,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Streaming Server is server technology which allows you to send
 streaming QuickTime data to clients across the Internet using the
 industry standard RTP and RTSP protocols.
+
+%description -l pl
+Serwer strumieni pozwala wysy³aæ strumienie danych QuickTime do
+klientów w Internecie przy u¿yciu protoko³ów RTP i RTSP.
 
 %prep
 %setup -q -n StreamingServer
