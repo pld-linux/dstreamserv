@@ -7,6 +7,8 @@ License:	APSL
 Group:		Networking/Daemons
 Source0:	DSS-4_1_2.src.tar.gz
 Source1:	%{name}.init
+Obsoletes:	dstreamsrv
+Obsoletes:	DSS
 URL:		http://www.publicsource.apple.com/projects/streaming/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
