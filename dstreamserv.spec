@@ -1,3 +1,4 @@
+# TODO: FHS (/var/streaming, /usr/local...)
 Summary:	Darwin Streaming Server
 Summary(pl):	Serwer strumieni z Darwina
 Name:		dstreamserv
@@ -8,9 +9,11 @@ Group:		Networking/Daemons
 Source0:	DSS-4_1_2.src.tar.gz
 # Source0-md5:	521975dcfe9d7b64653112b4e1749e47
 Source1:	%{name}.init
+URL:		http://www.publicsource.apple.com/projects/streaming/
+PreReq:		rc-scripts
+Requires(post,preun):	/sbin/chkconfig
 Obsoletes:	dstreamsrv
 Obsoletes:	DSS
-URL:		http://www.publicsource.apple.com/projects/streaming/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -24,14 +27,17 @@ klientów w Internecie przy u¿yciu protoko³ów RTP i RTSP.
 
 %package samples
 Summary:        Darwin Streaming Server - samples
+Summary(pl):	Przyk³ady do Darwin Streaming Servera
 Group:          Networking/Deamons
 
 %description samples
-Sample files for Streaming Server
+Sample files for Streaming Server.
+
+%description samples -l pl
+Przyk³adowe pliki do Darwin Streaming Servera.
 
 %prep
 %setup -q -n DSS-4_1_2.src
-
 
 %build
 ./buildtarball
