@@ -2,7 +2,7 @@ Summary:	Darwin Streaming Server
 Summary(pl):	Serwer strumieni z Darwina
 Name:		dstreamsrv
 Version:	4.0
-Release:	1
+Release:	2
 License:	APSL
 Group:		Networking/Daemons
 # Source0:	http://<user>:<password>@www.publicsource.apple.com/projects/streaming/source/DarwinStreamingServerSrc.tar.gz
@@ -98,5 +98,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(600,root,root) /var/streaming/AdminHtml/html_fr
 %attr(600,root,root) /var/streaming/AdminHtml/html_ja
 %attr(600,root,root) %{_sysconfdir}/streaming/*
-%doc *-Sample
-%doc *-sample
+%doc DarwinStreamingSrvr4.0-Linux/*-Sample
+%doc DarwinStreamingSrvr4.0-Linux/*-sample
