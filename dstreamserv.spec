@@ -1,11 +1,12 @@
 Summary:	Darwin Streaming Server
 Summary(pl):	Serwer strumieni z Darwina
-Name:		dstreamsrv
+Name:		dstreamserv
 Version:	4.1.2
-Release:	1
+Release:	2
 License:	APSL
 Group:		Networking/Daemons
 Source0:	DSS-4_1_2.src.tar.gz
+Source1:	%{name}.init
 URL:		http://www.publicsource.apple.com/projects/streaming/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -17,6 +18,13 @@ industry standard RTP and RTSP protocols.
 %description -l pl
 Serwer strumieni pozwala wysy³aæ strumienie danych QuickTime do
 klientów w Internecie przy u¿yciu protoko³ów RTP i RTSP.
+
+%package samples
+Summary:        Darwin Streaming Server - samples
+Group:          Networking/Deamons
+
+%description samples
+Sample files for Streaming Server
 
 %prep
 %setup -q -n DSS-4_1_2.src
@@ -47,7 +55,10 @@ $RPM_BUILD_ROOT%{_sysconfdir}/streaming \
     $RPM_BUILD_ROOT/var/streaming/AdminHtml/includes \
     $RPM_BUILD_ROOT%{_prefix}/local/bin \
     $RPM_BUILD_ROOT%{_prefix}/local/sbin \
-    $RPM_BUILD_ROOT%{_prefix}/local/movies
+    $RPM_BUILD_ROOT%{_prefix}/local/movies \
+    $RPM_BUILD_ROOT/etc/rc.d/init.d
+
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
 
 cd DarwinStreamingSrvr4.1.2-Linux
 
@@ -57,6 +68,7 @@ install qtpasswd $RPM_BUILD_ROOT%{_prefix}/local/bin
 
 install *.mov $RPM_BUILD_ROOT%{_prefix}/local/movies/
 install *.mp3 $RPM_BUILD_ROOT%{_prefix}/local/movies/
+install *.mp4 $RPM_BUILD_ROOT%{_prefix}/local/movies/
 
 install DarwinStreamingServer $RPM_BUILD_ROOT%{_prefix}/local/sbin
 install streamingadminserver.pl $RPM_BUILD_ROOT%{_prefix}/local/sbin
@@ -80,11 +92,30 @@ install streamingserver.xml $RPM_BUILD_ROOT%{_sysconfdir}/streaming
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+umask 022
+/sbin/chkconfig --add %{name}
+if [ -f /var/lock/subsys/DSS ]; then
+    /etc/rc.d/init.d/%{name} restart >&2
+else
+    echo "Run \"/etc/rc.d/init.d/%{name} start\" to start Streaming Server daemon."
+fi
+echo "Default admin username is aGFja21l. Set a password for it or, better "
+echo "delete it and create new admin username and password (using qtpasswd)"
+
+%preun
+if [ "$1" = "0" ]; then
+    if [ -f /var/lock/subsys/DSS ]; then
+	/etc/rc.d/init.d/%{name} stop >&2
+    fi
+    /sbin/chkconfig --del %{name}
+fi
+
 %files
 %defattr(644,root,root,755)
+%attr(754,root,root) /etc/rc.d/init.d/%{name}
 %attr(755,root,root) %{_prefix}/local/bin/*
 %attr(750,root,root) %{_prefix}/local/sbin/*
-%attr(644,root,root) %{_prefix}/local/movies/*
 %attr(644,root,root) /var/streaming/readme.pdf
 %attr(777,root,root) /var/streaming/playlists
 %attr(755,root,root) /var/streaming/logs
@@ -100,3 +131,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(600,root,root) %{_sysconfdir}/streaming/*
 %doc DarwinStreamingSrvr4.1.2-Linux/*-Sample
 %doc DarwinStreamingSrvr4.1.2-Linux/*-sample
+
+%files samples
+%attr(644,root,root) %{_prefix}/local/movies/*
