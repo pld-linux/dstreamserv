@@ -26,9 +26,9 @@ Serwer strumieni pozwala wysy³aæ strumienie danych QuickTime do
 klientów w Internecie przy u¿yciu protoko³ów RTP i RTSP.
 
 %package samples
-Summary:        Darwin Streaming Server - samples
+Summary:	Darwin Streaming Server - samples
 Summary(pl):	Przyk³ady do Darwin Streaming Servera
-Group:          Networking/Deamons
+Group:		Networking/Deamons
 
 %description samples
 Sample files for Streaming Server.
