@@ -3,12 +3,13 @@ Summary:	Darwin Streaming Server
 Summary(pl):	Serwer strumieni z Darwina
 Name:		dstreamserv
 Version:	4.1.2
-Release:	2
+Release:	3
 License:	APSL
 Group:		Networking/Daemons
 Source0:	DSS-4_1_2.src.tar.gz
 # Source0-md5:	521975dcfe9d7b64653112b4e1749e47
 Source1:	%{name}.init
+Patch0:		%{name}-Buildit.patch
 URL:		http://www.publicsource.apple.com/projects/streaming/
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
@@ -38,8 +39,11 @@ Przyk³adowe pliki do Darwin Streaming Servera.
 
 %prep
 %setup -q -n DSS-4_1_2.src
+%patch0 -p1 
 
 %build
+export CC=%{__cxx}
+export CXX=%{__cxx}
 ./buildtarball
 tar -xvzf DarwinStreamingSrvr4.1.2-Linux.tar.gz
 cd DarwinStreamingSrvr4.1.2-Linux
