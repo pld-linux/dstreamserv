@@ -6,6 +6,7 @@ Release:	2
 License:	APSL
 Group:		Networking/Daemons
 Source0:	DSS-4_1_2.src.tar.gz
+# Source0-md5:	521975dcfe9d7b64653112b4e1749e47
 Source1:	%{name}.init
 Obsoletes:	dstreamsrv
 Obsoletes:	DSS
