@@ -1,12 +1,11 @@
 Summary:	Darwin Streaming Server
 Summary(pl):	Serwer strumieni z Darwina
 Name:		dstreamsrv
-Version:	4.0
-Release:	2
+Version:	4.1.2
+Release:	1
 License:	APSL
 Group:		Networking/Daemons
-# Source0:	http://<user>:<password>@www.publicsource.apple.com/projects/streaming/source/DarwinStreamingServerSrc.tar.gz
-Source0:	DarwinStreamingServerSrc.tar.gz
+Source0:	DSS-4_1_2.src.tar.gz
 URL:		http://www.publicsource.apple.com/projects/streaming/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -20,12 +19,13 @@ Serwer strumieni pozwala wysy³aæ strumienie danych QuickTime do
 klientów w Internecie przy u¿yciu protoko³ów RTP i RTSP.
 
 %prep
-%setup -q -n StreamingServer
+%setup -q -n DSS-4_1_2.src
+
 
 %build
 ./buildtarball
-tar -xvzf DarwinStreamingSrvr4.0-Linux.tar.gz
-cd DarwinStreamingSrvr4.0-Linux
+tar -xvzf DarwinStreamingSrvr4.1.2-Linux.tar.gz
+cd DarwinStreamingSrvr4.1.2-Linux
 %{_bindir}/perl perlpath.pl %{_bindir}/perl streamingadminserver.pl AdminHtml/parse_xml.cgi
 echo "admin: dssadmin" > qtgroups
 ./qtpasswd -f ./qtusers -p 'dssadmin' 'dssadmin'
@@ -49,7 +49,7 @@ $RPM_BUILD_ROOT%{_sysconfdir}/streaming \
     $RPM_BUILD_ROOT%{_prefix}/local/sbin \
     $RPM_BUILD_ROOT%{_prefix}/local/movies
 
-cd DarwinStreamingSrvr4.0-Linux
+cd DarwinStreamingSrvr4.1.2-Linux
 
 install MP3Broadcaster $RPM_BUILD_ROOT%{_prefix}/local/bin
 install PlaylistBroadcaster $RPM_BUILD_ROOT%{_prefix}/local/bin
@@ -98,5 +98,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(600,root,root) /var/streaming/AdminHtml/html_fr
 %attr(600,root,root) /var/streaming/AdminHtml/html_ja
 %attr(600,root,root) %{_sysconfdir}/streaming/*
-%doc DarwinStreamingSrvr4.0-Linux/*-Sample
-%doc DarwinStreamingSrvr4.0-Linux/*-sample
+%doc DarwinStreamingSrvr4.1.2-Linux/*-Sample
+%doc DarwinStreamingSrvr4.1.2-Linux/*-sample
