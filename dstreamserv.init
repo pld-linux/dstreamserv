@@ -28,7 +28,7 @@ err_exit() {
 	exit 1
 }
 
-
+RETVAL=0
 # See how we were called.
 case "$1" in
   start)
@@ -40,13 +40,9 @@ case "$1" in
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/DSS
 		msg_starting "DSS Admin"
 		daemon /usr/local/sbin/streamingadminserver.pl
-		RETVAL=$?
-		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/DSS-admin 
-		RETVAL=$?
-		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/DSS
- 	 else
+		[ $RETVAL -eq 0 ] && RETVAL=$?
+	else
 		msg_already_running DSS
-		exit 1
 	fi
 																				
 	;;
@@ -55,27 +51,25 @@ case "$1" in
 	if [ -f /var/lock/subsys/DSS ]; then
 		msg_stopping DSS
 		killproc DarwinStreamingServer 
-		rm -f /var/lock/subsys/DSS >/dev/null 2>&1
 		msg_stopping "DSS Admin"
-		ps x|grep 'streaming'|grep -v grep|awk '{print $1};' |xargs kill
-		RETVAL=$?
-		rm -f /var/lock/subsys/DSS-admin > /dev/null 2>&1
+		ps x | grep 'streaming' | grep -v grep|awk '{print $1};' | xargs kill
+		rm -f /var/lock/subsys/DSS >/dev/null 2>&1
 	else
 		msg_not_running DSS
-		exit 1
 	fi
 	;;
-  restart|reload)
+  restart|force-reload)
 	$0 stop
 	$0 start
+	exit $?
 	;;
   status)
 	status DSS
 	exit $?
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|status}"
-	exit 1
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
 esac
 
 exit $RETVAL
