@@ -1,4 +1,3 @@
-# TODO: FHS (/var/streaming, /usr/local...)
 Summary:	Darwin Streaming Server
 Summary(pl):	Serwer strumieni z Darwina
 Name:		dstreamserv
@@ -7,7 +6,7 @@ Release:	0.1
 License:	APSL
 Group:		Networking/Daemons
 Source0:	DSS-v5_0_3_2.zip
-# Source0-md5:	394e74199a01e5f54c743bb02f898edd
+# NoSource0-md5:	394e74199a01e5f54c743bb02f898edd
 NoSource:	0
 Source1:	%{name}.init
 Source2:	%{name}-relayconfig.xml
@@ -16,8 +15,8 @@ Patch1:		%{name}-buildtarball.patch
 Patch2:		%{name}-defaultpath.patch
 Patch3:		%{name}-qtpasswd.patch
 URL:		http://developer.apple.com/darwin/projects/streaming/
-PreReq:		rc-scripts
 BuildRequires:  rpmbuild(macros) >= 1.177
+PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/bin/id
@@ -26,8 +25,8 @@ Requires(pre):	/usr/sbin/useradd
 Requires(post):	fileutils
 Requires(postun):	/usr/sbin/userdel
 Requires(postun):	/usr/sbin/groupdel
-Obsoletes:	dstreamsrv
 Obsoletes:	DSS
+Obsoletes:	dstreamsrv
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -100,8 +99,6 @@ install *.mp4 $RPM_BUILD_ROOT/var/lib/streaming/movies/
 
 install DarwinStreamingServer $RPM_BUILD_ROOT%{_prefix}/sbin
 install streamingadminserver.pl $RPM_BUILD_ROOT%{_prefix}/sbin
-
-#install readme.pdf $RPM_BUILD_ROOT/var/streaming
 
 install AdminHtml/*.html $RPM_BUILD_ROOT/usr/share/streaming/AdminHtml/
 install AdminHtml/*.pl $RPM_BUILD_ROOT/usr/share/streaming/AdminHtml/
