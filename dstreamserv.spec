@@ -5,7 +5,9 @@ Version:	4.0
 Release:	1
 License:	APSL
 Group:		Networking/Daemons
-Source0:	http://www.publicsource.apple.com/projects/streaming/source/DarwinStreamingServerSrc.tar.gz
+# Source0:	http://<user>:<password>@www.publicsource.apple.com/projects/streaming/source/DarwinStreamingServerSrc.tar.gz
+Source0:	DarwinStreamingServerSrc.tar.gz
+URL:		http://www.publicsource.apple.com/projects/streaming/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
