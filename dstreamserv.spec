@@ -191,5 +191,5 @@ fi
 %doc DarwinStreamingSrvrdss-Linux/*-sample
 
 %files samples
-%defattr(644,qtss,qtss,755)
-/var/lib/streaming/movies/*
+%defattr(644,root,root,755)
+%attr(644,qtss,qtss) /var/lib/streaming/movies/*
