@@ -1,5 +1,5 @@
---- ./DSS-4_1_2.src/Buildit.orig	2002-11-02 02:08:06.000000000 +0100
-+++ DSS-4_1_2.src/Buildit	2003-12-28 14:58:36.000000000 +0100
+--- DSS-v5_0_3_2/Buildit.orig	2004-06-10 02:03:33.000000000 +0200
++++ DSS-v5_0_3_2/Buildit	2005-03-29 14:57:11.590729016 +0200
 @@ -16,17 +16,17 @@
  
  	Linux.ppc)
@@ -39,19 +39,16 @@
 +		COMPILER_FLAGS="-fPIC -D_REENTRANT -D__USE_POSIX -D__linux__ -pipe"
          INCLUDE_FLAG="-include"
  		
- 		CORE_LINK_LIBS="-lpthread -ldl -lm -lcrypt -lstdc++"
+ 		CORE_LINK_LIBS="-lpthread -ldl -lstdc++ -lm -lcrypt"
  
 -		SHARED=-shared
 +		SHARED="-fPIC -shared"
  		MODULE_LIBS=
  		
  		if [ -f /usr/include/socketbits.h ]; then
-@@ -135,19 +135,19 @@
- 
- 	
+@@ -176,17 +176,17 @@
  	*)
--		echo "I don't know your platform. I'll assume this is a Linux x86 platform."
-+		echo "I don't know your platform. I'll assume this is a Linux platform."
+ 		echo "I don't know your platform. I'll assume this is a Linux x86 platform."
  		echo "Please edit the BuildServer script & PlatformHeader.h to add your platform."
 -		CPLUS=gcc
 -		CCOMP=gcc

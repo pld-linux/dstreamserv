@@ -1,0 +1,117 @@
+--- DSS-v5_0_3_2/defaultPaths.h.orig	2003-08-16 01:52:39.000000000 +0200
++++ DSS-v5_0_3_2/defaultPaths.h	2005-03-29 15:55:50.483775960 +0200
+@@ -60,9 +60,9 @@
+ 
+ # define DEFAULTPATHS_ETC_DIR			"/etc/streaming/"
+ # define DEFAULTPATHS_ETC_DIR_OLD		"/etc/"
+-# define DEFAULTPATHS_SSM_DIR			"/usr/local/sbin/StreamingServerModules/"
+-# define DEFAULTPATHS_LOG_DIR			"/var/streaming/logs/"
+-# define DEFAULTPATHS_MOVIES_DIR        "/usr/local/movies/"
++# define DEFAULTPATHS_SSM_DIR			"/usr/lib/StreamingServerModules/"
++# define DEFAULTPATHS_LOG_DIR			"/var/log/streaming/"
++# define DEFAULTPATHS_MOVIES_DIR        "/var/lib/streaming/movies/"
+ # define DEFAULTPATHS_PID_DIR           "/var/run/"
+ 
+ #endif
+--- DSS-v5_0_3_2/WebAdmin/src/streamingadminserver.pl.orig	2003-08-28 01:21:55.000000000 +0200
++++ DSS-v5_0_3_2/WebAdmin/src/streamingadminserver.pl	2005-03-29 16:12:14.000000000 +0200
+@@ -222,8 +222,8 @@
+ else {
+ 	%vital = ("port", 1220,
+ 	  "sslport", 1240,
+-	  "root", "/var/streaming/AdminHtml",
+-      "plroot", "/var/streaming/playlists/",
++	  "root", "/usr/share/streaming/AdminHtml",
++      "plroot", "/var/lib/streaming/playlists/",
+ 	  "server", "DSS 4.1 Admin Server/1.0",
+ 	  "index_docs", "index.html parse_xml.cgi index.htm index.cgi",
+ 	  "addtype_html", "text/html",
+@@ -238,9 +238,9 @@
+ 	  "realm", "DSS Admin Server",
+ 	  "qtssIPAddress", "localhost",
+ 	  "qtssPort", "554",
+-	  "qtssName", "/usr/local/sbin/DarwinStreamingServer",
++	  "qtssName", "/usr/sbin/DarwinStreamingServer",
+       "qtssAutoStart", "1",
+-	  "logfile", "/var/streaming/logs/streamingadminserver.log",
++	  "logfile", "/var/log/streaming/streamingadminserver.log",
+ 	  "log", "1",
+ 	  "logclear", "0",
+ 	  "logtime", "168",
+@@ -250,9 +250,9 @@
+ 	  "crtfile", "/etc/streaming/streamingadminserver.pem",
+ 	  "keyfile", "/etc/streaming/streamingadminserver.pem",
+ 	  #"keypasswordfile", "",
+-	  "qtssQTPasswd", "/usr/local/bin/qtpasswd",
+-	  "qtssPlaylistBroadcaster", "/usr/local/bin/PlaylistBroadcaster",
+-	  "qtssMP3Broadcaster", "/usr/local/bin/MP3Broadcaster",
++	  "qtssQTPasswd", "/usr/sbin/qtpasswd",
++	  "qtssPlaylistBroadcaster", "/usr/bin/PlaylistBroadcaster",
++	  "qtssMP3Broadcaster", "/usr/bin/MP3Broadcaster",
+ 	  "helpurl", "http://helpqt.apple.com/dssWebAdminHelpR3/dssWebAdmin.help/DSSHelp.htm",
+ 	  "tempfileloc", "/tmp",
+ 	  "qtssAdmin", "streamingadmin",
+--- DSS-v5_0_3_2/streamingserver.xml-POSIX.orig	2003-04-09 02:30:00.000000000 +0200
++++ DSS-v5_0_3_2/streamingserver.xml-POSIX	2005-03-29 18:45:24.940054128 +0200
+@@ -79,7 +79,7 @@
+ 	<PREF NAME="error_logfile_interval" TYPE="UInt32">7</PREF>
+ 
+ 	<!-- error log. A value of 0 means unlimited. -->
+-	<PREF NAME="error_logfile_dir">/var/streaming/logs</PREF>
++	<PREF NAME="error_logfile_dir">/var/log/streaming</PREF>
+ 
+ 	<!-- Name of the error log file. -->
+ 	<PREF NAME="error_logfile_name">Error</PREF>
+@@ -88,7 +88,7 @@
+     <PREF NAME="pid_file">/var/run/DarwinStreamingServer.pid</PREF>
+ 
+ 	<!-- Path to the folder containing dynamic loadable server modules -->
+-	<PREF NAME="module_folder">/usr/local/sbin/StreamingServerModules</PREF>
++	<PREF NAME="module_folder">/usr/lib/StreamingServerModules</PREF>
+ 
+ 	<!-- If the server discovers it is serving more than its -->
+ 	<!-- allowed maximum bandwidth (using the average bandwidth computation) it -->
+@@ -117,7 +117,7 @@
+ 	<PREF NAME="bind_ip_addr">0</PREF>
+ 
+ 	<!-- Path to the root folder for movies. -->
+-	<PREF NAME="movie_folder">/usr/local/movies/</PREF>
++	<PREF NAME="movie_folder">/var/lib/streaming/movies/</PREF>
+ 
+ 	<!-- Maximum amount of bandwidth the server is allowed to serve. -->
+ 	<!-- value is in kilobits/sec. While this limit is exceeded, new client requests. -->
+@@ -293,7 +293,7 @@
+ 	<PREF NAME="request_logfile_size" TYPE="UInt32">10240000</PREF>
+ 
+ 	<!-- Path to directory where access logs are stored. -->
+-	<PREF NAME="request_logfile_dir">/var/streaming/logs</PREF>
++	<PREF NAME="request_logfile_dir">/var/log/streaming</PREF>
+ 
+ 	<!-- Name of the access log file. -->
+ 	<PREF NAME="request_logfile_name">StreamingServer</PREF>
+@@ -364,7 +364,7 @@
+     <PREF NAME="mp3_request_logfile_name" >mp3_access</PREF>
+     
+ 	<!-- Path to directory where access logs are stored. -->
+-	<PREF NAME="mp3_request_logfile_dir">/var/streaming/logs</PREF>
++	<PREF NAME="mp3_request_logfile_dir">/var/log/streaming</PREF>
+ 
+ 	<!-- Either "true" or "false". This toggles -->
+ 	<!-- mp3 access logging on and off. -->
+@@ -396,14 +396,14 @@
+ 	<PREF NAME="http_xfer_enabled" TYPE="Bool16" >false</PREF>
+ 	<!-- Path to the http download folder. All files -->
+ 	<!-- that are requested from this folder are sent via HTTP -->
+-	<PREF NAME="http_folder">/usr/local/movies/http</PREF>
++	<PREF NAME="http_folder">/var/lib/streaming/http</PREF>
+ 	<!-- Either "true" or "false". This toggles http module -->
+ 	<!-- logging on and off. -->
+ 	<PREF NAME="http_logging" TYPE="Bool16">true</PREF>
+ 	<!-- Name of the http module log file. -->
+ 	<PREF NAME="http_logfile_name">Http</PREF>
+ 	<!-- Path to directory where http module logs are stored. -->
+-	<PREF NAME="http_logfile_dir">/var/streaming/logs</PREF>
++	<PREF NAME="http_logfile_dir">/var/log/streaming</PREF>
+ 	<!-- Maximum allowed size in bytes for the http module log. A -->
+ 	<!-- value of 0 means unlimited. -->
+ 	<PREF NAME="http_logfile_size" TYPE="UInt32">256000</PREF>

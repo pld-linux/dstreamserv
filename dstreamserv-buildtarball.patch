@@ -1,0 +1,83 @@
+--- DSS-v5_0_3_2/buildtarball.orig	2002-12-21 18:41:05.000000000 +0100
++++ DSS-v5_0_3_2/buildtarball	2004-09-17 00:14:22.000000000 +0200
+@@ -16,23 +16,23 @@
+ 	;;		
+ esac
+ 
+-echo removing DarwinStreamingSrvr4.1.x-$PLAT.tar.gz
+-if rm -f DarwinStreamingSrvr4.1.x-$PLAT.tar.gz; 
++echo removing DarwinStreamingSrvr$1-$PLAT.tar.gz
++if rm -f DarwinStreamingSrvr$1-$PLAT.tar.gz; 
+ then :
+ fi
+ 
+-echo removing DarwinStreamingSrvr4.1.x-$PLAT
+-if rm -rf DarwinStreamingSrvr4.1.x-$PLAT; 
++echo removing DarwinStreamingSrvr$1-$PLAT
++if rm -rf DarwinStreamingSrvr$1-$PLAT; 
+ then :
+ fi
+ 
+-echo removing StreamingProxy-4.1.x-$PLAT.tar.gz
+-if rm -f StreamingProxy-4.1.x-$PLAT.tar.gz; 
++echo removing StreamingProxy-$1-$PLAT.tar.gz
++if rm -f StreamingProxy-$1-$PLAT.tar.gz; 
+ then :
+ fi
+ 
+-echo removing StreamingProxy-4.1.x-$PLAT
+-if rm -rf StreamingProxy-4.1.x-$PLAT 
++echo removing StreamingProxy-$1-$PLAT
++if rm -rf StreamingProxy-$1-$PLAT 
+ then :
+ fi
+ 
+@@ -67,27 +67,31 @@
+ 	exit 1
+ fi
+ 
+-if [ ! -d StreamingLoadTool ];
+-then 
+-	echo "Error: there is no StreamingLoadTool folder."
+-	echo Cannot build StreamingLoadTool. Exiting!
++if [ "$1" = "dss" ]; then
++    echo ""
++else
++    if [ ! -d StreamingLoadTool ];
++    then 
++        echo "Error: there is no StreamingLoadTool folder."
++        echo Cannot build StreamingLoadTool. Exiting!
+         exit 1
+-fi
+-
+-if [ ! -f StreamingLoadTool/StreamingLoadTool ];
+-then
++    fi
++    
++    if [ ! -f StreamingLoadTool/StreamingLoadTool ];
++    then
+         echo "StreamingLoadTool failed to build!"
+-	echo Buildit FAILED. Exiting!
+-	exit 1
++        echo Buildit FAILED. Exiting!
++        exit 1
++    fi
+ fi
+ 
+-./DSS_MakeRoot -f DarwinStreamingSrvr4.1.x-$PLAT
+-tar cvf DarwinStreamingSrvr4.1.x-$PLAT.tar DarwinStreamingSrvr4.1.x-$PLAT
+-gzip DarwinStreamingSrvr4.1.x-$PLAT.tar
+-
+-./DSS_MakeProxyRoot StreamingProxy-4.1.x-$PLAT
+-tar cvf StreamingProxy-4.1.x-$PLAT.tar StreamingProxy-4.1.x-$PLAT
+-gzip StreamingProxy-4.1.x-$PLAT.tar
++./DSS_MakeRoot -f DarwinStreamingSrvr$1-$PLAT $1
++tar cvf DarwinStreamingSrvr$1-$PLAT.tar DarwinStreamingSrvr$1-$PLAT
++gzip DarwinStreamingSrvr$1-$PLAT.tar
++
++./DSS_MakeProxyRoot StreamingProxy-$1-$PLAT
++tar cvf StreamingProxy-$1-$PLAT.tar StreamingProxy-$1-$PLAT
++gzip StreamingProxy-$1-$PLAT.tar
+ 
+ echo Success!
+ 

@@ -1,0 +1,20 @@
+--- DSS-v5_0_3_2/qtpasswd.tproj/QTSSPasswd.cpp.orig	2003-08-16 01:53:34.000000000 +0200
++++ DSS-v5_0_3_2/qtpasswd.tproj/QTSSPasswd.cpp	2005-03-29 19:54:14.623246856 +0200
+@@ -919,12 +919,12 @@
+     if(lastOccurOfSeparator != NULL) 
+     {
+ 		int filenameLength = ::strlen(lastOccurOfSeparator) + sizeof(char);
+-		tempFilePathLength = pathLength - filenameLength + sizeof(char) + ::strlen(tmpFile);
++		tempFilePathLength = pathLength - filenameLength + sizeof(char) + ::strlen(tmpFile) + 2;
+ 		
+-		tempFilePath = new char[tempFilePathLength];
+-		memcpy(tempFilePath, qtusersFilePath, (pathLength - filenameLength));
+-		memcpy(tempFilePath + (pathLength - filenameLength), tmpFile, ::strlen(tmpFile));
+-		tempFilePath[pathLength - filenameLength + ::strlen(tmpFile)] = '\0';
++		tempFilePath = new char[tempFilePathLength + 2];
++		memcpy(tempFilePath, qtusersFilePath, (pathLength - filenameLength + 2));
++		memcpy(tempFilePath + (pathLength - filenameLength) + 2, tmpFile, ::strlen(tmpFile));
++		tempFilePath[pathLength - filenameLength + ::strlen(tmpFile) + 2] = '\0';
+ 		
+ 		/* Get temp users file path name */
+ 		if (!createGroup && !deleteGroup)

@@ -35,11 +35,11 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/DSS ]; then
 		msg_starting DSS
-		daemon /usr/local/sbin/DarwinStreamingServer 
+		daemon /usr/sbin/DarwinStreamingServer
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/DSS
 		msg_starting "DSS Admin"
-		daemon /usr/local/sbin/streamingadminserver.pl
+		daemon /usr/sbin/streamingadminserver.pl
 		RET=$?
 		[ $RETVAL -eq 0 ] && RETVAL=$RET
 	else
@@ -53,7 +53,8 @@ case "$1" in
 		msg_stopping DSS
 		killproc DarwinStreamingServer 
 		msg_stopping "DSS Admin"
-		ps x | grep 'streaming' | grep -v grep|awk '{print $1};' | xargs kill
+		kill -9 `cat /var/run/streamingadminserver.pid`
+		rm -f /var/run/streamingadminserver.pid
 		rm -f /var/lock/subsys/DSS >/dev/null 2>&1
 	else
 		msg_not_running DSS
