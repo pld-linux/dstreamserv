@@ -52,20 +52,20 @@ echo "admin: dssadmin" > qtgroups
 rm -rf $RPM_BUILD_ROOT
 install -d \
 $RPM_BUILD_ROOT%{_sysconfdir}/streaming \
-    $RPM_BUILD_ROOT/var/streaming \
-    $RPM_BUILD_ROOT/var/streaming/logs \
-    $RPM_BUILD_ROOT/var/streaming/playlists \
-    $RPM_BUILD_ROOT/var/streaming/AdminHtml \
-    $RPM_BUILD_ROOT/var/streaming/AdminHtml/html_de \
-    $RPM_BUILD_ROOT/var/streaming/AdminHtml/html_en \
-    $RPM_BUILD_ROOT/var/streaming/AdminHtml/html_fr \
-    $RPM_BUILD_ROOT/var/streaming/AdminHtml/html_ja \
-    $RPM_BUILD_ROOT/var/streaming/AdminHtml/images \
-    $RPM_BUILD_ROOT/var/streaming/AdminHtml/includes \
-    $RPM_BUILD_ROOT%{_prefix}/local/bin \
-    $RPM_BUILD_ROOT%{_prefix}/local/sbin \
-    $RPM_BUILD_ROOT%{_prefix}/local/movies \
-    $RPM_BUILD_ROOT/etc/rc.d/init.d
+	$RPM_BUILD_ROOT/var/streaming \
+	$RPM_BUILD_ROOT/var/streaming/logs \
+	$RPM_BUILD_ROOT/var/streaming/playlists \
+	$RPM_BUILD_ROOT/var/streaming/AdminHtml \
+	$RPM_BUILD_ROOT/var/streaming/AdminHtml/html_de \
+	$RPM_BUILD_ROOT/var/streaming/AdminHtml/html_en \
+	$RPM_BUILD_ROOT/var/streaming/AdminHtml/html_fr \
+	$RPM_BUILD_ROOT/var/streaming/AdminHtml/html_ja \
+	$RPM_BUILD_ROOT/var/streaming/AdminHtml/images \
+	$RPM_BUILD_ROOT/var/streaming/AdminHtml/includes \
+	$RPM_BUILD_ROOT%{_prefix}/local/bin \
+	$RPM_BUILD_ROOT%{_prefix}/local/sbin \
+	$RPM_BUILD_ROOT%{_prefix}/local/movies \
+	$RPM_BUILD_ROOT/etc/rc.d/init.d
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
 
@@ -105,19 +105,19 @@ rm -rf $RPM_BUILD_ROOT
 umask 022
 /sbin/chkconfig --add %{name}
 if [ -f /var/lock/subsys/DSS ]; then
-    /etc/rc.d/init.d/%{name} restart >&2
+	/etc/rc.d/init.d/%{name} restart >&2
 else
-    echo "Run \"/etc/rc.d/init.d/%{name} start\" to start Streaming Server daemon."
+	echo "Run \"/etc/rc.d/init.d/%{name} start\" to start Streaming Server daemon."
 fi
 echo "Default admin username is aGFja21l. Set a password for it or, better "
 echo "delete it and create new admin username and password (using qtpasswd)"
 
 %preun
 if [ "$1" = "0" ]; then
-    if [ -f /var/lock/subsys/DSS ]; then
-	/etc/rc.d/init.d/%{name} stop >&2
-    fi
-    /sbin/chkconfig --del %{name}
+	if [ -f /var/lock/subsys/DSS ]; then
+		/etc/rc.d/init.d/%{name} stop >&2
+	fi
+	/sbin/chkconfig --del %{name}
 fi
 
 %files
