@@ -40,7 +40,8 @@ case "$1" in
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/DSS
 		msg_starting "DSS Admin"
 		daemon /usr/local/sbin/streamingadminserver.pl
-		[ $RETVAL -eq 0 ] && RETVAL=$?
+		RET=$?
+		[ $RETVAL -eq 0 ] && RETVAL=$RET
 	else
 		msg_already_running DSS
 	fi
