@@ -10,7 +10,7 @@ Source0:	DSS-4_1_2.src.tar.gz
 # Source0-md5:	521975dcfe9d7b64653112b4e1749e47
 Source1:	%{name}.init
 Patch0:		%{name}-Buildit.patch
-URL:		http://www.publicsource.apple.com/projects/streaming/
+URL:		http://developer.apple.com/darwin/projects/streaming/
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Obsoletes:	dstreamsrv
