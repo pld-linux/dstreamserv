@@ -3,7 +3,7 @@ Summary:	Darwin Streaming Server
 Summary(pl):	Serwer strumieni z Darwina
 Name:		dstreamserv
 Version:	4.1.2
-Release:	3
+Release:	3.1
 License:	APSL
 Group:		Networking/Daemons
 Source0:	DSS-4_1_2.src.tar.gz
@@ -146,4 +146,5 @@ fi
 %doc DarwinStreamingSrvr4.1.2-Linux/*-sample
 
 %files samples
-%attr(644,root,root) %{_prefix}/local/movies/*
+%defattr(644,root,root,755)
+%{_prefix}/local/movies/*
