@@ -2,8 +2,8 @@
 #
 # Script for starting and stoping Darwin Streaming Server
 #
-# chkconfig: 345 55 45
-# description: DarwinStreamingServer
+# chkconfig:	345 55 45
+# description:	DarwinStreamingServer
 # Source function library.
 . /etc/rc.d/init.d/functions
 
@@ -12,66 +12,66 @@
 
 # Check that networking is up.
 if is_no "${NETWORKING}"; then
-        msg_Network_Down DSS
-        exit 1
+	msg_network_down DSS
+	exit 1
 fi
 
 # Get service config
 [ -f /etc/sysconfig/DSS ] && . /etc/sysconfig/DSS
 
 err_exit() {
-    echo @$
-    exit 1
+	echo @$
+	exit 1
 }
 
 
 # See how we were called.
 case "$1" in
   start)
-        # Check if the service is already running?
-        if [ ! -f /var/lock/subsys/DSS ]; then
-                msg_starting DSS
-                daemon /usr/local/sbin/DarwinStreamingServer 
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/DSS ]; then
+		msg_starting DSS
+		daemon /usr/local/sbin/DarwinStreamingServer 
 		RETVAL=$?
-                [ $RETVAL -eq 0 ] && touch /var/lock/subsys/DSS
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/DSS
 		msg_starting "DSS Admin"
 		daemon /usr/local/sbin/streamingadminserver.pl
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/DSS-admin 
-	        RETVAL=$?
-                [ $RETVAL -eq 0 ] && touch /var/lock/subsys/DSS
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/DSS
  	 else
-                msg_Already_Running DSS
-                exit 1
-        fi
+		msg_already_running DSS
+		exit 1
+	fi
 																				
-        ;;
+	;;
   stop)
-        # Stop daemons.
+	# Stop daemons.
 	if [ -f /var/lock/subsys/DSS ]; then
-	        msg_stopping DSS
-	        killproc DarwinStreamingServer 
-	        rm -f /var/lock/subsys/DSS >/dev/null 2>&1
+		msg_stopping DSS
+		killproc DarwinStreamingServer 
+		rm -f /var/lock/subsys/DSS >/dev/null 2>&1
 		msg_stopping "DSS Admin"
 		ps x|grep 'streaming'|grep -v grep|awk '{print $1};' |xargs kill
 		RETVAL=$?
 		rm -f /var/lock/subsys/DSS-admin > /dev/null 2>&1
 	else
-                msg_Not_Running DSS
-                exit 1
-        fi
-        ;;
-  restart)
+		msg_not_running DSS
+		exit 1
+	fi
+	;;
+  restart|reload)
 	$0 stop
 	$0 start
-        ;;
+	;;
   status)
-        status DSS
+	status DSS
 	exit $?
-        ;;
+	;;
   *)
-        msg_Usage "$0 {start|stop|restart|status}"
-        exit 1
+	msg_usage "$0 {start|stop|restart|reload|status}"
+	exit 1
 esac
 
 exit $RETVAL
