@@ -15,7 +15,7 @@ Patch1:		%{name}-buildtarball.patch
 Patch2:		%{name}-defaultpath.patch
 Patch3:		%{name}-qtpasswd.patch
 URL:		http://developer.apple.com/darwin/projects/streaming/
-BuildRequires:  rpmbuild(macros) >= 1.177
+BuildRequires:	rpmbuild(macros) >= 1.202
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Requires(pre):	/usr/bin/getgid
@@ -25,6 +25,8 @@ Requires(pre):	/usr/sbin/useradd
 Requires(post):	fileutils
 Requires(postun):	/usr/sbin/userdel
 Requires(postun):	/usr/sbin/groupdel
+Provides:	group(qtss)
+Provides:	user(qtss)
 Obsoletes:	DSS
 Obsoletes:	dstreamsrv
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -138,26 +140,14 @@ if [ "$1" = "0" ]; then
 fi
 
 %pre 
-if [ -n "`/usr/bin/getgid qtss`" ]; then
-        if [ "`/usr/bin/getgid qtss`" != "148" ]; then
-                echo "Error: group qtss doesn't have gid=148. Correct this before installing dstreamserv." 1>&2
-                exit 1
-        fi
-else
-        /usr/sbin/groupadd -f -g 148 qtss 1>&2
-fi
-if [ -n "`/bin/id -u qtss 2>/dev/null`" ]; then
-        if [ "`/bin/id -u qtss`" != "148" ]; then
-                echo "Error: user qtss doesn't have uid=148. Correct this before installing dstreamserv." 1>&2
-                exit 1
-        fi
-else
-        /usr/sbin/useradd -g qtss -d /tmp -u 148 -s /bin/false qtss 1>&2
-fi
+%groupadd -f -g 148 qtss
+%useradd -g qtss -d /tmp -u 148 -s /bin/false qtss
 
 %postun
-%userremove qtss
-%groupremove qtss
+if [ "$1" = "0" ]; then
+	%userremove qtss
+	%groupremove qtss
+fi
 
 %files
 %defattr(644,root,root,755)
