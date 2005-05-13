@@ -15,6 +15,8 @@ Patch1:		%{name}-buildtarball.patch
 Patch2:		%{name}-defaultpath.patch
 Patch3:		%{name}-qtpasswd.patch
 URL:		http://developer.apple.com/darwin/projects/streaming/
+BuildRequires:	libstdc++-devel
+BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.202
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
