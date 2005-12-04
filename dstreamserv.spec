@@ -18,15 +18,15 @@ URL:		http://developer.apple.com/darwin/projects/streaming/
 BuildRequires:	libstdc++-devel
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.202
-PreReq:		rc-scripts
+Requires:	rc-scripts
+Requires(post):	fileutils
 Requires(post,preun):	/sbin/chkconfig
-Requires(pre):	/usr/bin/getgid
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
-Requires(post):	fileutils
-Requires(postun):	/usr/sbin/userdel
-Requires(postun):	/usr/sbin/groupdel
 Provides:	group(qtss)
 Provides:	user(qtss)
 Obsoletes:	DSS
@@ -45,7 +45,7 @@ klientów w Internecie przy u¿yciu protoko³ów RTP i RTSP.
 %package samples
 Summary:	Darwin Streaming Server - samples
 Summary(pl):	Przyk³ady do Darwin Streaming Servera
-Group:		Networking/Deamons
+Group:		Networking/Daemons
 
 %description samples
 Sample files for Streaming Server.
@@ -54,7 +54,7 @@ Sample files for Streaming Server.
 Przyk³adowe pliki do Darwin Streaming Servera.
 
 %prep
-%setup -q -n DSS-v5_0_3_2
+%setup -q -n DSS-v%{version}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -127,7 +127,7 @@ else
 	echo "Run \"/etc/rc.d/init.d/%{name} start\" to start Streaming Server daemon."
 fi
 %banner %{name} -e <<EOF
-Default admin password is aGFja21l. Set a password for it or, better 
+Default admin password is aGFja21l. Set a password for it or, better
 delete it and create new admin username and password (using qtpasswd)
 
 EOF
@@ -141,7 +141,7 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del %{name}
 fi
 
-%pre 
+%pre
 %groupadd -f -g 148 qtss
 %useradd -g qtss -d /tmp -u 148 -s /bin/false qtss
 
@@ -177,7 +177,7 @@ fi
 %attr(400,qtss,qtss) /usr/share/streaming/AdminHtml/html_en/*
 # etc 
 %dir %attr(750,qtss,qtss) %{_sysconfdir}/streaming
-%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/streaming/*
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/streaming/*
 
 %doc DarwinStreamingSrvrdss-Linux/*-Sample
 %doc DarwinStreamingSrvrdss-Linux/*-sample
