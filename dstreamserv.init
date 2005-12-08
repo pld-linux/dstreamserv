@@ -45,13 +45,13 @@ case "$1" in
 	else
 		msg_already_running DSS
 	fi
-																				
+
 	;;
   stop)
 	# Stop daemons.
 	if [ -f /var/lock/subsys/DSS ]; then
 		msg_stopping DSS
-		killproc DarwinStreamingServer 
+		killproc DarwinStreamingServer
 		msg_stopping "DSS Admin"
 		kill -9 `cat /var/run/streamingadminserver.pid`
 		rm -f /var/run/streamingadminserver.pid
