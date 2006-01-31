@@ -61,8 +61,8 @@ Przyk³adowe pliki do Darwin Streaming Servera.
 %patch3 -p1
 
 %build
-export CC=%{__cxx}
-export CXX=%{__cxx}
+export CC="%{__cxx}"
+export CXX="%{__cxx}"
 ./buildtarball dss
 tar -xvzf DarwinStreamingSrvrdss-Linux.tar.gz
 cd DarwinStreamingSrvrdss-Linux
@@ -77,39 +77,39 @@ $RPM_BUILD_ROOT%{_sysconfdir}/streaming \
 	$RPM_BUILD_ROOT/var/lib/streaming \
 	$RPM_BUILD_ROOT/var/log/streaming \
 	$RPM_BUILD_ROOT/var/lib/streaming/playlists \
-	$RPM_BUILD_ROOT/usr/lib/StreamingServerModules \
-	$RPM_BUILD_ROOT/usr/share/streaming/AdminHtml \
-	$RPM_BUILD_ROOT/usr/share/streaming/AdminHtml/html_en \
-	$RPM_BUILD_ROOT/usr/share/streaming/AdminHtml/images \
-	$RPM_BUILD_ROOT/usr/share/streaming/AdminHtml/includes \
+	$RPM_BUILD_ROOT%{_libdir}/StreamingServerModules \
+	$RPM_BUILD_ROOT%{_datadir}/streaming/AdminHtml \
+	$RPM_BUILD_ROOT%{_datadir}/streaming/AdminHtml/html_en \
+	$RPM_BUILD_ROOT%{_datadir}/streaming/AdminHtml/images \
+	$RPM_BUILD_ROOT%{_datadir}/streaming/AdminHtml/includes \
 	$RPM_BUILD_ROOT/var/lib/streaming/movies \
 	$RPM_BUILD_ROOT/var/lib/streaming/http \
-	$RPM_BUILD_ROOT%{_prefix}/bin \
-	$RPM_BUILD_ROOT%{_prefix}/sbin \
+	$RPM_BUILD_ROOT%{_bindir} \
+	$RPM_BUILD_ROOT%{_sbindir} \
 	$RPM_BUILD_ROOT/etc/rc.d/init.d
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/streaming/
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/streaming
 
 cd DarwinStreamingSrvrdss-Linux
 
-install MP3Broadcaster $RPM_BUILD_ROOT%{_prefix}/bin
-install PlaylistBroadcaster $RPM_BUILD_ROOT%{_prefix}/bin
-install qtpasswd $RPM_BUILD_ROOT%{_prefix}/sbin
+install MP3Broadcaster $RPM_BUILD_ROOT%{_bindir}
+install PlaylistBroadcaster $RPM_BUILD_ROOT%{_bindir}
+install qtpasswd $RPM_BUILD_ROOT%{_sbindir}
 
-install *.mov $RPM_BUILD_ROOT/var/lib/streaming/movies/
-install *.mp3 $RPM_BUILD_ROOT/var/lib/streaming/movies/
-install *.mp4 $RPM_BUILD_ROOT/var/lib/streaming/movies/
+install *.mov $RPM_BUILD_ROOT/var/lib/streaming/movies
+install *.mp3 $RPM_BUILD_ROOT/var/lib/streaming/movies
+install *.mp4 $RPM_BUILD_ROOT/var/lib/streaming/movies
 
-install DarwinStreamingServer $RPM_BUILD_ROOT%{_prefix}/sbin
-install streamingadminserver.pl $RPM_BUILD_ROOT%{_prefix}/sbin
+install DarwinStreamingServer $RPM_BUILD_ROOT%{_sbindir}
+install streamingadminserver.pl $RPM_BUILD_ROOT%{_sbindir}
 
-install AdminHtml/*.html $RPM_BUILD_ROOT/usr/share/streaming/AdminHtml/
-install AdminHtml/*.pl $RPM_BUILD_ROOT/usr/share/streaming/AdminHtml/
-install AdminHtml/*.cgi $RPM_BUILD_ROOT/usr/share/streaming/AdminHtml/
-install AdminHtml/html_en/* $RPM_BUILD_ROOT/usr/share/streaming/AdminHtml/html_en/
-install AdminHtml/images/* $RPM_BUILD_ROOT/usr/share/streaming/AdminHtml/images/
-install AdminHtml/includes/* $RPM_BUILD_ROOT/usr/share/streaming/AdminHtml/includes/
+install AdminHtml/*.html $RPM_BUILD_ROOT%{_datadir}/streaming/AdminHtml
+install AdminHtml/*.pl $RPM_BUILD_ROOT%{_datadir}/streaming/AdminHtml
+install AdminHtml/*.cgi $RPM_BUILD_ROOT%{_datadir}/streaming/AdminHtml
+install AdminHtml/html_en/* $RPM_BUILD_ROOT%{_datadir}/streaming/AdminHtml/html_en
+install AdminHtml/images/* $RPM_BUILD_ROOT%{_datadir}/streaming/AdminHtml/images
+install AdminHtml/includes/* $RPM_BUILD_ROOT%{_datadir}/streaming/AdminHtml/includes
 
 install qtgroups $RPM_BUILD_ROOT%{_sysconfdir}/streaming
 install qtusers $RPM_BUILD_ROOT%{_sysconfdir}/streaming
@@ -153,34 +153,33 @@ fi
 
 %files
 %defattr(644,root,root,755)
+%doc DarwinStreamingSrvrdss-Linux/*-Sample
+%doc DarwinStreamingSrvrdss-Linux/*-sample
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
-%attr(755,root,root) %{_prefix}/bin/*
-%attr(750,root,root) %{_prefix}/sbin/*
+%attr(755,root,root) %{_bindir}/*
+%attr(750,root,root) %{_sbindir}/*
 %dir %attr(770,root,qtss) /var/log/streaming
-%dir /usr/lib/StreamingServerModules
+%dir %{_libdir}/StreamingServerModules
 # /var/lib files 
 %dir /var/lib/streaming
 %dir %attr(750,qtss,qtss) /var/lib/streaming/playlists
 %dir %attr(750,qtss,qtss) /var/lib/streaming/movies
 %dir %attr(750,qtss,qtss) /var/lib/streaming/http
 # admin server
-%dir /usr/share/streaming
-%dir %attr(700,qtss,qtss) /usr/share/streaming/AdminHtml
-%dir %attr(700,qtss,qtss) /usr/share/streaming/AdminHtml/images
-%dir %attr(700,qtss,qtss) /usr/share/streaming/AdminHtml/includes
-%dir %attr(700,qtss,qtss) /usr/share/streaming/AdminHtml/html_en
-%attr(400,qtss,qtss) /usr/share/streaming/AdminHtml/*.html
-%attr(400,qtss,qtss) /usr/share/streaming/AdminHtml/*.pl
-%attr(400,qtss,qtss) /usr/share/streaming/AdminHtml/*.cgi
-%attr(400,qtss,qtss) /usr/share/streaming/AdminHtml/images/*
-%attr(400,qtss,qtss) /usr/share/streaming/AdminHtml/includes/*
-%attr(400,qtss,qtss) /usr/share/streaming/AdminHtml/html_en/*
+%dir %{_datadir}/streaming
+%dir %attr(700,qtss,qtss) %{_datadir}/streaming/AdminHtml
+%dir %attr(700,qtss,qtss) %{_datadir}/streaming/AdminHtml/images
+%dir %attr(700,qtss,qtss) %{_datadir}/streaming/AdminHtml/includes
+%dir %attr(700,qtss,qtss) %{_datadir}/streaming/AdminHtml/html_en
+%attr(400,qtss,qtss) %{_datadir}/streaming/AdminHtml/*.html
+%attr(400,qtss,qtss) %{_datadir}/streaming/AdminHtml/*.pl
+%attr(400,qtss,qtss) %{_datadir}/streaming/AdminHtml/*.cgi
+%attr(400,qtss,qtss) %{_datadir}/streaming/AdminHtml/images/*
+%attr(400,qtss,qtss) %{_datadir}/streaming/AdminHtml/includes/*
+%attr(400,qtss,qtss) %{_datadir}/streaming/AdminHtml/html_en/*
 # etc 
 %dir %attr(750,qtss,qtss) %{_sysconfdir}/streaming
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/streaming/*
-
-%doc DarwinStreamingSrvrdss-Linux/*-Sample
-%doc DarwinStreamingSrvrdss-Linux/*-sample
 
 %files samples
 %defattr(644,root,root,755)
