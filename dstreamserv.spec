@@ -1,5 +1,5 @@
 Summary:	Darwin Streaming Server
-Summary(pl):	Serwer strumieni z Darwina
+Summary(pl.UTF-8):   Serwer strumieni z Darwina
 Name:		dstreamserv
 Version:	5.0.3.2
 Release:	0.1
@@ -38,20 +38,20 @@ Streaming Server is server technology which allows you to send
 streaming QuickTime data to clients across the Internet using the
 industry standard RTP and RTSP protocols.
 
-%description -l pl
-Serwer strumieni pozwala wysy≥aÊ strumienie danych QuickTime do
-klientÛw w Internecie przy uøyciu protoko≥Ûw RTP i RTSP.
+%description -l pl.UTF-8
+Serwer strumieni pozwala wysy≈Çaƒá strumienie danych QuickTime do
+klient√≥w w Internecie przy u≈ºyciu protoko≈Ç√≥w RTP i RTSP.
 
 %package samples
 Summary:	Darwin Streaming Server - samples
-Summary(pl):	Przyk≥ady do Darwin Streaming Servera
+Summary(pl.UTF-8):   Przyk≈Çady do Darwin Streaming Servera
 Group:		Networking/Daemons
 
 %description samples
 Sample files for Streaming Server.
 
-%description samples -l pl
-Przyk≥adowe pliki do Darwin Streaming Servera.
+%description samples -l pl.UTF-8
+Przyk≈Çadowe pliki do Darwin Streaming Servera.
 
 %prep
 %setup -q -n DSS-v%{version}
