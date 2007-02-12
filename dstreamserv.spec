@@ -1,5 +1,5 @@
 Summary:	Darwin Streaming Server
-Summary(pl.UTF-8):   Serwer strumieni z Darwina
+Summary(pl.UTF-8):	Serwer strumieni z Darwina
 Name:		dstreamserv
 Version:	5.0.3.2
 Release:	0.1
@@ -44,7 +44,7 @@ klientów w Internecie przy użyciu protokołów RTP i RTSP.
 
 %package samples
 Summary:	Darwin Streaming Server - samples
-Summary(pl.UTF-8):   Przykłady do Darwin Streaming Servera
+Summary(pl.UTF-8):	Przykłady do Darwin Streaming Servera
 Group:		Networking/Daemons
 
 %description samples
