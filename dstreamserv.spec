@@ -18,6 +18,7 @@ URL:		http://developer.apple.com/darwin/projects/streaming/
 BuildRequires:	libstdc++-devel
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.202
+BuildRequires:	unzip
 Requires:	rc-scripts
 Requires(post):	fileutils
 Requires(post,preun):	/sbin/chkconfig
