@@ -1,3 +1,4 @@
+# NOTE: version 6 is in dss.spec
 Summary:	Darwin Streaming Server
 Summary(pl.UTF-8):	Serwer strumieni z Darwina
 Name:		dstreamserv
